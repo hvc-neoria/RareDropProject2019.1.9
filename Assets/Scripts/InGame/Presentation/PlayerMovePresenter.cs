@@ -17,16 +17,19 @@ public class PlayerMovePresenter : MonoBehaviour
 
     void Update()
     {
-        // TODO インプットのターゲット状態を作成
         var input = new PlayerInput();
+        AxisInput axisInput = input.MainAxis();
 
-        // presenterの値をドメイン用に変換
-        // TODO:inputVector2を型にするか
-        MoveVector2 inputVector = new MoveVector2(input.MainAxis());
         MoveSpeed speed = new MoveSpeed(3f);
         Vector3 cameraForward = cameraTransformCache.forward;
 
-        Vector3 vector3 = inputVector.Move(speed, cameraForward);
+        MoveVector2 moveVector = new MoveVector2(axisInput.value);
+        Vector3 vector3 = moveVector
+            .Multi(speed)
+            .MultiCurrentFrameTime()
+            .RotateTo(cameraForward)
+            .ToXZOfVector3();
+
         charaPresenter.Move(vector3);
     }
 }

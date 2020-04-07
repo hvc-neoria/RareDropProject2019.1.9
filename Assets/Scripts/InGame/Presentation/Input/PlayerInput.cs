@@ -10,6 +10,6 @@ public class PlayerInput
     float SubHorizontal() => Input.GetAxis("SubHorizontal");
     float SubVertical() => Input.GetAxis("SubVertical");
 
-    public Vector2 MainAxis() => new Vector2(MainHorizontal(), MainVertical());
-    public Vector2 SubAxis() => new Vector2(SubHorizontal(), SubVertical());
+    public AxisInput MainAxis() => new AxisInput(new Vector2(MainHorizontal(), MainVertical()));
+    public AxisInput SubAxis() => new AxisInput(new Vector2(SubHorizontal(), SubVertical()));
 }
