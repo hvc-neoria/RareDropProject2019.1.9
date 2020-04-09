@@ -13,37 +13,39 @@ public class CameraAngle
     public readonly Vector2 value;
 
     public CameraAngle(Vector2 value){
+        Vector2 result = value;
         if (value.x < minX)
         {
-            var fromZeroToMinus360 = value.x %= maxX;
-            value.x = fromZeroToMinus360 + maxX;
+            float fromZeroToMinus360 = value.x % maxX;
+            float fromZeroTo360 = fromZeroToMinus360 + maxX;
+            result.x = fromZeroTo360;
         }
-        if(value.x >= maxX) value.x %= maxX;
-        if(value.y < minY) value.y = minY;
-        if(value.y > maxY) value.y = maxY;
-        this.value = value;
+        if(value.x >= maxX) result.x = value.x % maxX;
+        if(value.y < minY) result.y = minY;
+        if(value.y > maxY) result.y = maxY;
+        this.value = result;
     }
 
-    public CameraAngle Add(CameraAngle cameraAngle)
+    public CameraAngle Add(DeltaCameraAngle deltaAngle)
     {
-        var result = this.value + cameraAngle.value;
+        var result = this.value + deltaAngle.value;
         return new CameraAngle(result);
     }
 
-    public Vector3 Hoge(float radius)
+    public Vector3 ToLocalPosition(float radius)
     {
-        // xを加算で反時計回り、原点を負のZ軸上に設定
+        // xを加算でy軸で反時計回り、x=0の時に負のZ軸上になるよう設定
         float newX = this.value.x * -1f - 180f;
-        // yを加算でy上昇、原点をy=0に設定
+        // yを加算でy上昇、y=0でy=0になるよう設定
         float newY = this.value.y * -1f + 90f;
-        Vector3 fuga = ToSphericalCoordinate(new Vector2(newX, newY), radius);
-        return fuga;
+        Vector3 result = ToSphericalCoordinate(new Vector2(newX, newY), radius);
+        return result;
     }
 
-    // Transform.RotateAroundではXの回転を制限するのが困難なため、こちらが有効
-    // radiusを加算するとyが加算される
+    // y=0で上を向く
     // yを加算するとz方向を経由してyが減算される
     // xを加算するとy軸で時計回りする
+    // Transform.RotateAroundでは困難な、角度制限ができることが特徴
     Vector3 ToSphericalCoordinate(Vector2 vector2, float radius)
     {
         float xRad = vector2.x * Mathf.Deg2Rad;
@@ -55,20 +57,4 @@ public class CameraAngle
         );
         return result;
     }
-
-
-    public CameraAngle Multi(MoveSpeed speed)
-    {
-        var result = this.value * speed.value;
-        return new CameraAngle(result);
-    }
-
-    // todo rename かける1可変フレームの時間 MultiDynamicFrameTime?
-    public CameraAngle MultiDeltaTime()
-    {
-        var result = this.value * Time.deltaTime;
-        return new CameraAngle(result);
-    }
-
-    // 斜めを丸くする
 }

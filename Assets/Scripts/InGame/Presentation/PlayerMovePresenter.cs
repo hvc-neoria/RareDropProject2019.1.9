@@ -28,6 +28,7 @@ public class PlayerMovePresenter : MonoBehaviour
             .Multi(speed)
             .MultiCurrentFrameTime()
             .RotateTo(cameraForward)
+            .SolveThatSlantIsRoot2()
             .ToXZOfVector3();
 
         charaPresenter.Move(vector3);

@@ -627,6 +627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b345107860b814c4cbf9ab29ff1d8f8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fuga: {x: 0, y: 0, z: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +760,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa98261e5921d4c589b82a5c491a8284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vector2: {x: 0, y: 0}
+  num: 0
 --- !u!4 &1418307453
 Transform:
   m_ObjectHideFlags: 0
