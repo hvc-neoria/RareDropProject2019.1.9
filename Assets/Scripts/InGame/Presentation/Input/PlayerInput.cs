@@ -12,4 +12,6 @@ public class PlayerInput
 
     public AxisInput MainAxis() => new AxisInput(new Vector2(MainHorizontal(), MainVertical()));
     public AxisInput SubAxis() => new AxisInput(new Vector2(SubHorizontal(), SubVertical()));
+
+    public bool Attack() => Input.GetButtonDown("Fire1");
 }
